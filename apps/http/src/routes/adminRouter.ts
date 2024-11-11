@@ -6,7 +6,8 @@ import { string } from "zod"
 
 export const adminRouter : Router = express.Router()
 
-adminRouter.post('/element', adminMiddleware, async(req, res) => {
+adminRouter.use(adminMiddleware)
+adminRouter.post('/element', async(req, res) => {
     const parsedBody = createElementSchema.safeParse(req.body);
     if(!parsedBody.success){
         res.status(400).json({
@@ -37,7 +38,7 @@ adminRouter.post('/element', adminMiddleware, async(req, res) => {
     }
 })
 
-adminRouter.put('/element/:elementId', adminMiddleware, async(req, res) => {
+adminRouter.put('/element/:elementId', async(req, res) => {
     const elementId = req.params.elementId;
     const imageUrl = req.body;
     if(!imageUrl || imageUrl !== string){
@@ -67,7 +68,7 @@ adminRouter.put('/element/:elementId', adminMiddleware, async(req, res) => {
     }
 })
 
-adminRouter.post('/avatar', adminMiddleware, async(req, res) => {
+adminRouter.post('/avatar', async(req, res) => {
     const parsedBody = createAvatarSchema.safeParse(req.body);
     if(!parsedBody.success){
         res.status(400).json({
@@ -96,7 +97,7 @@ adminRouter.post('/avatar', adminMiddleware, async(req, res) => {
     }
 })
 
-adminRouter.post('/map', adminMiddleware, async(req, res) => {
+adminRouter.post('/map', async(req, res) => {
     const parsedBody = createMapSchema.safeParse(req.body);
     if(!parsedBody.success){
         res.status(400).json({
